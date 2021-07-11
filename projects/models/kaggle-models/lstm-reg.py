@@ -29,8 +29,6 @@ logger = logging.getLogger('train_logger')
 logging.warning('This will get logged to a file')
 
 
-path = os.getcwd()
-print(path)
 
 
 # ## Loading Data
