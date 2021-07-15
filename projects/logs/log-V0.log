@@ -1,0 +1,45 @@
+FileHandler : INFO     selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+FileHandler - INFO - selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+StreamHandler - INFO -  Preprocessor received a data with shape: (1754155, 10) trimmed to (10524, 10)
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(10524, 10)
+FileHandler - INFO - Raw data shape:(10524, 10)
+FileHandler : INFO     Categorized data shape:(10524, 6407)
+FileHandler - INFO - Categorized data shape:(10524, 6407)
+StreamHandler - INFO - No. Valid Customers:26
+StreamHandler - INFO - - - -> X-Tensor with shape: (38, 8, 6404) and Y-Tensor with shape(38, 1)found on Local Drive <- - -
+StreamHandler - INFO - (26, 8, 6404)(12, 8, 6404)(26, 1)(12, 1)
+FileHandler : INFO     selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+FileHandler - INFO - selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+StreamHandler - INFO -  Preprocessor received a data with shape: (1754155, 10) trimmed to (10524, 10)
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(10524, 10)
+FileHandler - INFO - Raw data shape:(10524, 10)
+FileHandler : INFO     Categorized data shape:(10524, 6407)
+FileHandler - INFO - Categorized data shape:(10524, 6407)
+StreamHandler - INFO - No. Valid Customers:26
+StreamHandler - INFO - - - -> X-Tensor with shape: (38, 8, 6404) and Y-Tensor with shape(38, 1)found on Local Drive <- - -
+StreamHandler - INFO - (26, 8, 6404)(12, 8, 6404)(26, 1)(12, 1)
+FileHandler : INFO     selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+FileHandler - INFO - selected Features are:['CUSTOMER_ID', 'TERMINAL_ID', 'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'WEEK_DAY', 'TX_FRAUD_SCENARIO']
+StreamHandler - INFO -  Preprocessor received a data with shape: (1754155, 10) trimmed to (10524, 10)
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(10524, 10)
+FileHandler - INFO - Raw data shape:(10524, 10)
+FileHandler : INFO     Categorized data shape:(10524, 6407)
+FileHandler - INFO - Categorized data shape:(10524, 6407)
+StreamHandler - INFO - No. Valid Customers:26
+StreamHandler - INFO - - - -> X-Tensor with shape: (38, 8, 6404) and Y-Tensor with shape(38, 1)found on Local Drive <- - -
+StreamHandler - INFO - (26, 8, 6404)(12, 8, 6404)(26, 1)(12, 1)
