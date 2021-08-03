@@ -16,7 +16,9 @@ class SIMPLE_LSTM:
 
         # Model Layers
         self.model = Sequential()
-        self.model.add(LSTM(lstm_layers[0], input_shape = input_shape, return_sequences = (len(lstm_layers)>1)))
+        #self.model.add(LSTM(lstm_layers[0], input_shape = input_shape, return_sequences = (len(lstm_layers)>1)))
+        self.model.add(LSTM(lstm_layers[0], input_shape = input_shape, return_sequences = False))
+        self.model.add(Dropout(drop_out))
         for i in range(1, len(lstm_layers)):
             self.mode.add(LSTM(lstm_layers[i], return_sequences = False))
             if drop_out is not None:
