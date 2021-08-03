@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 
 class MyLog:
     def __init__(self, version = 0, formatter = "%(name)-12s: %(levelname)-8s %(message)s"):
@@ -10,13 +11,15 @@ class MyLog:
                             format = '%(name)s - %(levelname)s - %(message)s')
         logging.getLogger().setLevel(0) #root logger
 
-    def getLogger(self, handlers = [['StreamHandler', 20, None], ['FileHandler', 10, "log_file"]]):
+    def getLogger(self, handlers = [['StreamHandler', 20, "sys.stdout"], ['FileHandler', 10, "log_file"]]):
         loggers = []
         for h, l, param in handlers:
             if param:
                 if param == "log_file":
                     param = self.log_file
-                handler = getattr(logging, h)(param)
+                    handler = getattr(logging, h)(param)
+                if param == "sys.stdout":
+                    handler = getattr(logging, h)()
             else:
                 handler = getattr(logging, h)()
             handler.setLevel(l)

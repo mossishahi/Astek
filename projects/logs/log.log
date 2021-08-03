@@ -1,0 +1,4 @@
+f-logger    : DEBUG    df
+f-logger    : INFO     if
+f-logger    : WARNING  fw
+f-logger    : ERROR    fe
