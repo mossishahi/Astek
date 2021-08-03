@@ -5,3 +5,5 @@ sys.path.append(os.path.abspath("../projects/"))
 
 from modules import MyLog
 ml = MyLog()
+
+

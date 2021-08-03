@@ -17,19 +17,24 @@ from sklearn.preprocessing import MinMaxScaler
 import joblib
 from keras.callbacks import CSVLogger
 
+
 from ._vc import VC
+from ._dumper import Dumper
+from ._dim_red import DimRed
 
 class Preprocessor:    
     def __init__(self, 
         input_data, 
         portion,
         loggers, 
-        path = os.path.abspath("./data/tensors/")):
+        path = os.path.abspath("./data/tensors/") + "/"):
         self.data = input_data.iloc[:int(portion*input_data.shape[0])]
-        self.version = VC().v
-        self.path = path + "/"
+        vc = VC()
+        self.version = vc.write_version()
+        self.path = path 
         self.clg, self.flg = loggers
-        self.clg.info(" Preprocessor received a data with shape: " + \
+        self.clg.info("Code Version: "+ str(self.version))
+        self.clg.info("Preprocessor received a data with Shape:" + \
             str(input_data.shape)+ " trimmed to " +str(self.data.shape) +"\n")
 
     def pre_process(self, 
@@ -40,7 +45,7 @@ class Preprocessor:
                     categoricals = None,
                     test_train_split = 0.7,
                     roll_base = 'time',
-                    drop_rollbase = True,
+                    drop_rollbase = False,
                     imbalanced = False):
         # ---------- 
         self.features = feature_columns
@@ -55,43 +60,71 @@ class Preprocessor:
         # ---------- Standardization ----------
         self.scaler(numericals)
         # ---------- Categorical features >> OneHotEncoding -------------
+        # customer_ids = self.data.pop('CUSTOMER_ID')
+        # tx_amount = self.data.pop('TX_AMOUNT')
+        # time = self.data.pop('TX_TIME_SECONDS')
+        # print(self.data.head(3))
+
         if categoricals is not None:
             self.flg.info("Raw data shape:" + str(self.data.shape))
             self.encode(categoricals)
             self.flg.info("Categorized data shape:" + str(self.data.shape))
+
+#         #----------- Dimension Reduction -----------
+#         high_dimensions = categoricals
+#         self.clg.info("---- Dimension Reduction ----")
+#         Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
+#         self.clg.info(self.data.columns)
+#         self.dimension_reduction(high_dimensions, 700)
+#         self.clg.info(self.data.columns)
+#         Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
+#         self.clg.info("---- Dimension Reduction ----")
+
+        # x_filter = [col for col in self.data.columns if col.startswith(tuple(self.features))]
+        # self.data = self.data[x_filter]
+        # x_components, c_variances = DimRed(int(0.1 * self.data.shape[1])).pca(self.data.iloc[:, :-1], 0.9)
+        # df = pd.DataFrame(x_components, columns = ["V"+str(i) for i in range(x_components.shape[1])])
+        # df['CUSTOMER_ID'] = customer_ids
+        # df['TX_AMOUNT'] = tx_amount
+        # df['TX_TIME_SECONDS'] = time
+        # self.data = df
+
         # ---------- Rolling X and Y Tensors ---------
         tensors, message = self.roll(self.window_size)
         if tensors:
             self.x_tensor, self.y_tensor = tensors
         else:
             return None, message
-        
         self.clg.info(message)
-        #---------- Test and Train split ------------
-        self.train_idx = np.random.choice(self.x_tensor.shape[0], 
-                                      int(self.x_tensor.shape[0]*self.test_train_split), replace=False)                      
+        input_tensors = self.x_tensor, self.y_tensor
+        # #---------- Test and Train split ------------
+        # self.train_idx = np.random.choice(self.x_tensor.shape[0], 
+        #                               int(self.x_tensor.shape[0]*self.test_train_split), replace=False)                      
         
-        self.X_train = self.x_tensor[self.train_idx, :, :]
-        self.X_test = np.delete(self.x_tensor, self.train_idx, axis=0)
-        self.y_train = self.y_tensor[self.train_idx, ]
-        self.y_test = np.delete(self.y_tensor, self.train_idx, axis=0)
-        message =  "-------------------- Preprocessing " + "Version-" + str(self.version) + " Done! ---------------------- \n"
-        return [self.X_train, self.X_test, self.y_train, self.y_test], message
+        # self.X_train = self.x_tensor[self.train_idx, :, :]
+        # self.X_test = np.delete(self.x_tensor, self.train_idx, axis=0)
+        # self.y_train = self.y_tensor[self.train_idx, ]
+        # self.y_test = np.delete(self.y_tensor, self.train_idx, axis=0)
+        # message =  "-------------------- Preprocessing " + "Version-" + str(self.version) + " Done! ---------------------- \n"
+        # input_tensors = [self.X_train, self.X_test, self.y_train, self.y_test]
+        # Dumper(self.path + "train_tensors/").dump(input_tensors, 
+        #                        self.tensor_name,
+        #                        "self.X_train, self.X_test, self.y_train, self.y_test".replace(",","").replace("self.", "").split(" "))
+        return input_tensors, message
                 
     def encode(self, categoricals):
-        if categoricals[0] is not None:
-            self.data = pd.get_dummies(self.data, columns = categoricals[0])
-        if categoricals[1] is not None:
-            self.data = pd.get_dummies(self.data, columns = categoricals[1])
+        if categoricals is not None:
+            self.data = pd.get_dummies(self.data, columns = categoricals)
     
     def scaler(self, numericals):
         scaler = MinMaxScaler()
-        self.data.loc[:][numericals[0]] = scaler.fit_transform(self.data.loc[:][numericals[0]])
-        self.data.loc[:][numericals[1]] = scaler.fit_transform(self.data.loc[:][numericals[1]])
-        self.flg.info(str(numericals[0])+ " >> have been Normalized.")
-        self.flg.info(str(numericals[0])+ " >> have been Normalized.")
+        self.data.loc[:, numericals] = scaler.fit_transform(self.data.loc[:, numericals])
+        self.clg.info(str(self.data.loc[:][numericals].iloc[[0, 100, 500]][:]) + "\n")
+        # self.clg.info("shape-test" + str(self.data.shape))
+        self.flg.info(str(numericals)+ " >> have been Normalized.")
 
     def roll(self, window_size):
+        
         valid_customers = (np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum()
         if valid_customers:
             self.clg.info("No. Valid Customers:" + str(((np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum())))
@@ -103,11 +136,13 @@ class Preprocessor:
         ix_tensor = np.zeros([(self.data.shape[0] - (window_size)) * window_size, len(x_filter)], dtype = 'float32')
         iy_tensor = np.zeros((0, len(y_filter)), dtype = 'float32')
         tensor_name = "W"+str(window_size)+"X"+str(len(x_filter))+"Y"+str(len(y_filter))+"_"
-        tensor_name = "V" + str(self.version) + tensor_name
         # print(">> . . .", self.data[self.roll_base[0]].value_counts().to_dict())
         if self.roll_base == 'time':
             tensor_name = "T-" + tensor_name
-            self.dg_x = self.data.loc[:][x_filter]
+            tensor_name = "V-" + str(self.version) + tensor_name
+            temp_filter = x_filter.pop(x_filter.index('TX_AMOUNT'))
+            x_filter = x_filter + [temp_filter]
+            self.dg_x = dg.loc[:][x_filter]
             self.dg_y = self.data.loc[:][y_filter]
             # - - - - - Check Drive files - - - - 
             if os.path.isfile(self.path + tensor_name +'X_tensor.pickle'):
@@ -131,6 +166,7 @@ class Preprocessor:
                 message = "Input X by shape:" + str(self.data.shape) + "rolled to X Tensor by Shape:" + str(ix_tensor.shape)
         else:
             tensor_name = "R-"+tensor_name
+            tensor_name = "V" + str(self.version) + "-" + tensor_name
             if os.path.isfile(self.path + tensor_name + 'X_tensor.pickle'):
                 with open((self.path + str(tensor_name) + 'X_tensor.pickle'), 'rb') as file:
                     ix_tensor = joblib.load(file)
@@ -139,32 +175,37 @@ class Preprocessor:
                 message = "- - -> X-Tensor with shape: " + str(ix_tensor.shape) + " and" + " Y-Tensor with shape" + str(iy_tensor.shape) + "found on Local Drive <- - -"
             else:
                 dg = self.data.sort_values(by = self.roll_base)
-                self.dg_x = dg.loc[:][x_filter]
+                temp_filter = x_filter.pop(x_filter.index('TX_AMOUNT')) #put amount column at the end of df
+                x_filter = x_filter + [temp_filter]
+                self.dg_x = dg.loc[:][x_filter]                
                 self.dg_y = dg.loc[:][y_filter]
-                del(dg)
-                with open("./dg_x.pickle", "wb") as f:
+
+                self.flg.info("normal-check-X:" + str((self.dg_x > 1.01).sum()) + "\n") #check whether numericals are normalaized
+                self.flg.info("normal-check-Y:" + str((self.dg_y > 1.01).sum()) + "\n")
+                self.flg.info("dgCols" + str(self.dg_x.columns))
+                with open("dg.pickle", "w+b") as f:
+                    pickle.dump(dg, f)
+                with open("dg_x.pickle", "w+b") as f:
                     pickle.dump(self.dg_x, f)
+                with open("dg_y.pickle", "w+b") as f:
+                    pickle.dump(self.dg_y, f)
+
+                del(dg)
 
                 # ------- Rolling Looop -----
                 i = 0
                 j = 0
                 while (i < self.dg_x.shape[0]-(window_size)):
+                    if not i %1000: # progress bar
+                        self.clg.info(str(i)+" /" + str(self.dg_x.shape[0]-(window_size)))
                     if self.dg_x[self.roll_base[0]].iloc[i:i + window_size].eq(self.dg_x[self.roll_base[0]].iloc[i + window_size]).all():
-                        if i < 100:
-                            self.clg.info(str(self.dg_x[self.roll_base[0]].iloc[i:i + window_size]))
-                            self.clg.info("i"+str(i))
-
                         s = np.array(self.dg_x.iloc[i:i + window_size], dtype='float32')
                         ix_tensor[(window_size*j):(window_size*(j+1)), :] = s
                         iy_tensor = np.vstack((iy_tensor, self.dg_y.iloc[i+window_size,:]))
-                        self.customers = np.append(self.customers, self.dg_x[self.roll_base[0]][i + window_size])
-                        # self.customers = np.array(set(self.customers))
                         j += 1
                         i += 1
                     else:
                         i += 1
-                        if i <100:
-                            self.clg.info("i"+str(i))
                         continue
                 # -------- Drop RoleBase Column -----
                 if self.drop_rollbase:
@@ -177,4 +218,15 @@ class Preprocessor:
                 with open(self.path + tensor_name +'Y_tensor.pickle', 'wb') as file:
                     joblib.dump(iy_tensor, file) 
                 message = "Input X by shape:" + str(self.data.shape) + "rolled to X Tensor by Shape:" + str(ix_tensor.shape)
+                self.tensor_name = tensor_name
         return [ix_tensor, iy_tensor], message
+
+
+    def dimension_reduction(self, high_dimensions, output_dim, method = "pca", params = [0.9]):
+        h_cols = [col for col in self.data.columns if col.startswith(tuple(high_dimensions))] 
+        l_cols = [col for col in self.data.columns if not col.startswith(tuple(high_dimensions))] 
+        dim_red = DimRed(self.data[h_cols], output_dim)
+        dr_res, _ = getattr(dim_red, method)(*params)
+        dr_columns = ["V"+str(i) for i in range(dr_res.shape[1])]
+        dr_df = pd.DataFrame(dr_res, columns = dr_columns)
+        self.data, _ = pd.concat((dr_df, self.data[l_cols]), axis = 1)

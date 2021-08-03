@@ -15,6 +15,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import MinMaxScaler
 from keras.callbacks import CSVLogger
 from modules import SIMPLE_LSTM
+from modules import VC
 
 class REGRESSION:
     def __init__(self,
@@ -24,7 +25,7 @@ class REGRESSION:
                  metrics = 'mae',
                  n_outputs = 1,
                  optimizer = 'adam'):
-        print("inpshape", input_shape)
+
         lstm_layers = [input_shape[0]]
         self.model = SIMPLE_LSTM(input_shape,
                                 lstm_layers = [input_shape[0]],
@@ -32,11 +33,13 @@ class REGRESSION:
                                 drop_out=drop_out,
                                 metrics = metrics).model
                                         #model's name
-        self.model_name = "L" + "".join(map(str,lstm_layers)) + "-"
-        self.model_name += "W" + str(input_shape[1])
-        self.model_name += ">>" + str(n_outputs)
+        self.model_name = "V" +  str(VC().read_version()) + "-"
+        self.model_name = "L" + "".join(map(str,lstm_layers)) + "-" #number of LSTM Units
+        self.model_name += "X" + str(input_shape[1]) #number of Features
+        self.model_name += "Y" + str(n_outputs)
 
-    def train(self, train_x, train_y, batch_size = 100, epochs = 2, validation_split = 0.2):
+    def train(self, train_x, train_y, batch_size = 32, epochs = 100, validation_split = 0.2):
+        print("epochs", epochs)
         csv_logger = CSVLogger(os.path.abspath("./logs/train.log"), append=True, separator=';')
         print("train shapes:", train_x.shape, train_y.shape)
         result = self.model.fit(train_x,

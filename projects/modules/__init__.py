@@ -6,6 +6,9 @@ from ._pre_processor import Preprocessor
 from ._dataLoader import DataLoader
 from ._calculator import Calculator
 from ._vc import VC
-__all__ = ["MyLog", "SIMPLE_LSTM", "Preprocessor", "DataLoader", "VC", "CALCULATOR"]
+from ._dumper import Dumper
+from ._dim_red import DimRed
+
+__all__ = ["MyLog", "SIMPLE_LSTM", "Preprocessor", "DataLoader", "VC", "CALCULATOR", "Dumpor", "DimRed"]
 
 sys.path.append(os.path.abspath("../projects/"))
