@@ -9,7 +9,9 @@ from ._vc import VC
 from ._dumper import Dumper
 from ._dim_red import DimRed
 from ._loss import Loss
+from ._ae import AutoEncoder
 
-__all__ = ["MyLog", "SIMPLE_LSTM", "Preprocessor", "DataLoader", "VC", "CALCULATOR", "Dumpor", "DimRed", "Loss"]
+
+__all__ = ["MyLog", "SIMPLE_LSTM", "Preprocessor", "DataLoader", "VC", "CALCULATOR", "Dumpor", "DimRed", "Loss", "AutoEncoder"]
 
 sys.path.append(os.path.abspath("../projects/"))

@@ -106990,3 +106990,15 @@ FileHandler : WARNING   There is no Customer having at least 64 Transaction
 
 FileHandler - WARNING -  There is no Customer having at least 64 Transaction 
 
+StreamHandler - INFO - Code Version: 89
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 9) trimmed to (701662, 9)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 9)
+FileHandler - INFO - Raw data shape:(701662, 9)
