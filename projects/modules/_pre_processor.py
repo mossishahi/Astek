@@ -46,7 +46,8 @@ class Preprocessor:
                     test_train_split = 0.7,
                     roll_base = 'time',
                     drop_rollbase = False,
-                    imbalanced = False):
+                    imbalanced = False,
+                    dimension_reduction = None):
         # ---------- 
         self.features = feature_columns
         self.labels = label_columns
@@ -59,44 +60,32 @@ class Preprocessor:
             self.data.loc[:]['TX_DATETIME'] = self.data.loc[:]['TX_DATETIME'].values.astype(float) 
         # ---------- Standardization ----------
         self.scaler(numericals)
+        
         # ---------- Categorical features >> OneHotEncoding -------------
-        # customer_ids = self.data.pop('CUSTOMER_ID')
-        # tx_amount = self.data.pop('TX_AMOUNT')
-        # time = self.data.pop('TX_TIME_SECONDS')
-        # print(self.data.head(3))
-
-        if categoricals is not None:
+        if categoricals:
             self.flg.info("Raw data shape:" + str(self.data.shape))
             self.encode(categoricals)
             self.flg.info("Categorized data shape:" + str(self.data.shape))
 
-#         #----------- Dimension Reduction -----------
-#         high_dimensions = categoricals
-#         self.clg.info("---- Dimension Reduction ----")
-#         Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
-#         self.clg.info(self.data.columns)
-#         self.dimension_reduction(high_dimensions, 700)
-#         self.clg.info(self.data.columns)
-#         Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
-#         self.clg.info("---- Dimension Reduction ----")
-
-        # x_filter = [col for col in self.data.columns if col.startswith(tuple(self.features))]
-        # self.data = self.data[x_filter]
-        # x_components, c_variances = DimRed(int(0.1 * self.data.shape[1])).pca(self.data.iloc[:, :-1], 0.9)
-        # df = pd.DataFrame(x_components, columns = ["V"+str(i) for i in range(x_components.shape[1])])
-        # df['CUSTOMER_ID'] = customer_ids
-        # df['TX_AMOUNT'] = tx_amount
-        # df['TX_TIME_SECONDS'] = time
-        # self.data = df
+        #----------- Dimension Reduction -----------
+        if dimension_reduction:
+            high_dimensions = categoricals
+            self.clg.info("---- Dimension Reduction ----")
+            Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
+            self.clg.info(self.data.columns)
+            self.dimension_reduction(high_dimensions, 700, dimension_reduction, params = None)
+            self.clg.info(self.data.columns)
+            Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
+            self.clg.info("---- Dimension Reduction Done----")
 
         # ---------- Rolling X and Y Tensors ---------
         tensors, message = self.roll(self.window_size)
         if tensors:
             self.x_tensor, self.y_tensor = tensors
+            self.clg.info(message)
+            input_tensors = self.x_tensor, self.y_tensor
         else:
             return None, message
-        self.clg.info(message)
-        input_tensors = self.x_tensor, self.y_tensor
         # #---------- Test and Train split ------------
         # self.train_idx = np.random.choice(self.x_tensor.shape[0], 
         #                               int(self.x_tensor.shape[0]*self.test_train_split), replace=False)                      
