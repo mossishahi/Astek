@@ -11,8 +11,13 @@ class AutoEncoder:
         inp = Input(shape=(input_shape,))
         encoder = Sequential()
         decoder = Sequential()
-        for i in in len(layers):
+        encoder.add(Dense(layers[0], activation = e_activation, input_shape = input_shape))
+        
+        for i in in range(1,len(layers)):
             encoder.add(Dense(layers[i], activation = e_activation))
-            decoder.add(Dense(layers[-(i+1)], activation = d_activation))
+            decoder.add(Dense(layers[-i], activation = d_activation))
+        
+        decoder.add(Dense(layers[0]))
         ## output
-        output = Dense(input_shape, activation='relu')(x)
+        out = Dense(input_shape, activation='relu')(decoder)
+        self.model = Model(inp, out)
