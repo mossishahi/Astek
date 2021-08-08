@@ -3,3 +3,4 @@ projects/models/kaggle-models/saved_models
 *.pickle
 *.csv
 *.pyc
+**__pycache__
