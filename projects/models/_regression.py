@@ -17,6 +17,8 @@ from keras.callbacks import CSVLogger
 from modules import SIMPLE_LSTM
 from modules import VC
 
+import matplotlib.pyplot as plt
+
 class REGRESSION:
     def __init__(self,
                  input_shape,
@@ -55,3 +57,15 @@ class REGRESSION:
         self.model.save(str(base_dir + "/saved_models/" + self.model_name + ".h5"))
         with open(base_dir + "/train_history/" + str("h_"+self.model_name)+".pickle", 'wb') as file:
             joblib.dump(history.history, file)
+    
+    def visualize(self, history):
+        title = self.model_name
+        fig, axs = plt.subplots(3)
+        fig.suptitle(title)
+        axs[0].plot(history['loss'])
+        axs[0].ylabel('Loss')
+        axs[1].plot(history['val_loss'])
+        axs[1].ylabel('Validation Loss')
+        fig = plt.figure(figsize=(16,10))
+
+

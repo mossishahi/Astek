@@ -16,8 +16,6 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import MinMaxScaler
 import joblib
 from keras.callbacks import CSVLogger
-
-
 from ._vc import VC
 from ._dumper import Dumper
 from ._dim_red import DimRed
@@ -63,15 +61,15 @@ class Preprocessor:
         
         # ---------- Categorical features >> OneHotEncoding -------------
         if categoricals:
-            self.flg.info("Raw data shape:" + str(self.data.shape))
+            self.clg.info("Raw data shape:" + str(self.data.shape))
             self.encode(categoricals)
-            self.flg.info("Categorized data shape:" + str(self.data.shape))
+            self.clg.info("Categorized data shape:" + str(self.data.shape))
 
         #----------- Dimension Reduction -----------
         if dimension_reduction:
             high_dimensions = categoricals
-            self.clg.info("---- Dimension Reduction ----")
-            # Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
+            self.clg.info("---- Dimension Reduction Started ----")
+            Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
             self.clg.info(self.data.columns)
             self.dimension_reduction(high_dimensions, params = [700], method = dimension_reduction)
             self.clg.info(self.data.columns)
