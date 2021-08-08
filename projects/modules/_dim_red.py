@@ -39,6 +39,6 @@ class DimRed():
         print(self.X.shape, "<< Shape of X")
         dim_reducer = AutoEncoder(input_shape = self.X.shape[1],
                                  layers = [int(0.5 * self.X.shape[1]), int(0.25 * self.X.shape[1]), int(0.125 * self.X.shape[1]), output_dim])
-        dim_reducer.model.fit(self.X, self.X, epochs = 150, batch_size = 64)
+        dim_reducer.model.fit(self.X, self.X, epochs = 150, batch_size = 1024)
         low_dim = dim_reducer.encoder(self.X)
         return low_dim, None, "AE"

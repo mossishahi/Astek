@@ -11,14 +11,15 @@ class AutoEncoder:
         inp = Input(shape=(input_shape,))
         print(layers, type(layers))
         #Encoder
-        x = Dense(layers[0], input_shape = (input_shape,), activation = e_activation)(inp)
+        self.encoder = Sequential()
+        self.encoder.add(Dense(layers[0], activation = e_activation, input_shape = (input_shape,)))
         for i in range(1,len(layers)):
-            x = Dense(layers[i], activation = e_activation)(x)
+            self.encoder.add(Dense(layers[i], activation = e_activation))
         #Decoder
+        self.decoder = Sequential()
         for i in range(1,len(layers)):
-            x = Dense(layers[-i], activation = d_activation)(x)
-        x = Dense(layers[0])(x)
+            self.decoder.add(Dense(layers[-i], activation = d_activation))
+        self.decoder.add(Dense(layers[0], activation = 'relu')
         ## output
-        out = Dense(input_shape, activation = 'relu')(x)
-        self.model = Model(inp, out)
+        self.model = Model(inputs = encoder.input, outputs = decoder(encoder.output))
         self.model.compile(optimizer = optimizer, loss = loss)
