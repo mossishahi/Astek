@@ -107002,3 +107002,263 @@ FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
 FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
 FileHandler : INFO     Raw data shape:(701662, 9)
 FileHandler - INFO - Raw data shape:(701662, 9)
+StreamHandler - INFO - Code Version: 90
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Code Version: 91
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 92
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Code Version: 93
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 94
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 95
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 96
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 97
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 98
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 99
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 100
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)
+StreamHandler - INFO - Code Version: 101
+StreamHandler - INFO - Preprocessor received a data with Shape:(1754155, 10) trimmed to (701662, 10)
+
+StreamHandler - INFO -      TX_AMOUNT  TX_TIME_SECONDS
+0     0.053581         0.000000
+100   0.016545         0.000684
+500   0.073547         0.002102
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler : INFO     Raw data shape:(701662, 10)
+FileHandler - INFO - Raw data shape:(701662, 10)
+FileHandler : INFO     Categorized data shape:(701662, 10015)
+FileHandler - INFO - Categorized data shape:(701662, 10015)
+StreamHandler - INFO - ---- Dimension Reduction ----
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=10015)

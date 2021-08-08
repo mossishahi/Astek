@@ -71,9 +71,9 @@ class Preprocessor:
         if dimension_reduction:
             high_dimensions = categoricals
             self.clg.info("---- Dimension Reduction ----")
-            Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
+            # Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
             self.clg.info(self.data.columns)
-            self.dimension_reduction(high_dimensions, 700, dimension_reduction, params = None)
+            self.dimension_reduction(high_dimensions, params = [700], method = dimension_reduction)
             self.clg.info(self.data.columns)
             Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
             self.clg.info("---- Dimension Reduction Done----")
@@ -211,10 +211,10 @@ class Preprocessor:
         return [ix_tensor, iy_tensor], message
 
 
-    def dimension_reduction(self, high_dimensions, output_dim, method = "pca", params = [0.9]):
+    def dimension_reduction(self, high_dimensions, params = [0.9], method = "pca"):
         h_cols = [col for col in self.data.columns if col.startswith(tuple(high_dimensions))] 
         l_cols = [col for col in self.data.columns if not col.startswith(tuple(high_dimensions))] 
-        dim_red = DimRed(self.data[h_cols], output_dim)
+        dim_red = DimRed(self.data[h_cols])
         dr_res, _ = getattr(dim_red, method)(*params)
         dr_columns = ["V"+str(i) for i in range(dr_res.shape[1])]
         dr_df = pd.DataFrame(dr_res, columns = dr_columns)
