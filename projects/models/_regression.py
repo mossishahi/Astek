@@ -38,7 +38,7 @@ class REGRESSION:
         self.model_name += "X" + str(input_shape[1]) #number of Features
         self.model_name += "Y" + str(n_outputs)
 
-    def train(self, train_x, train_y, batch_size = 32, epochs = 100, validation_split = 0.2):
+    def train(self, train_x, train_y, batch_size = 1024, epochs = 100, validation_split = 0.2):
         print("epochs", epochs)
         csv_logger = CSVLogger(os.path.abspath("./logs/train.log"), append=True, separator=';')
         print("train shapes:", train_x.shape, train_y.shape)
