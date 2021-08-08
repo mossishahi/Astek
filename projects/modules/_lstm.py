@@ -3,6 +3,7 @@ from keras import regularizers
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.layers.recurrent import LSTM
+from ._loss import FLoss
 
 class SIMPLE_LSTM:
     def __init__(self,
@@ -23,8 +24,9 @@ class SIMPLE_LSTM:
             self.mode.add(LSTM(lstm_layers[i], return_sequences = False))
             if drop_out is not None:
                 self.model(Dropout(drop_out))
-        
-        self.model.compile(loss=loss, 
+
+        # optimizer=tf.keras.optimizers.RMSProp(learning_rate=0.001)
+        self.model.compile(loss=FLoss.loss, 
                            optimizer=optimizer, 
                            metrics=metrics) #optimizer='rmsprop'
         self.model.build()
