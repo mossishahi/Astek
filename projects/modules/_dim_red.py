@@ -3,15 +3,14 @@ import numpy as np
 from ._ae import AutoEncoder
 
 class DimRed():
-    def __init__(self, X, output_dim):
-        self.output_dim = output_dim
+    def __init__(self, X):
         self.X = X
-    def pca(self, treshold):
+    def pca(self, output_dim, treshold):
         print("starting pca transformation")
-        print("n_comp:", self.output_dim)
+        print("n_comp:", output_dim)
         print("x-shape", self.X.shape)
         print("type", type(self.X))
-        pca = PCA(n_components = self.output_dim)
+        pca = PCA(n_components = output_dim)
         components = pca.fit_transform(self.X)
         variances = pca.explained_variance_ratio_
         cumsum_variances = np.cumsum(variances)
@@ -29,16 +28,17 @@ class DimRed():
             t_index = t_index[0]
             print("----")
             # print(cumsum_variances)
-            idx = max(self.output_dim, t_index[0])
+            idx = max(output_dim, t_index[0])
             print(idx, "idx")
             print(components[:, :idx].shape)
             print("----")
         return components[:, :idx], variances, message
     
-    def auto_encoder(self):
+    def auto_encoder(self, output_dim):
         print("- - - auto-encoder called - - - ")
-        dim_reducer = AutoEncoder(input_shape = self.X.shape[1], 
-                                 layers = [int(0.5 * self.X.shape[1]), int(0.25 * self.X.shape[1]), int(0.125 * self.X.shape[1]), self.output_dim])
+        print(self.X.shape, "<< Shape of X")
+        dim_reducer = AutoEncoder(input_shape = self.X.shape[1],
+                                 layers = [int(0.5 * self.X.shape[1]), int(0.25 * self.X.shape[1]), int(0.125 * self.X.shape[1]), output_dim])
         dim_reducer.model.fit(self.X, self.X, epochs = 150, batch_size = 64)
         low_dim = dim_reducer.encoder(self.X)
         return low_dim, None, "AE"
