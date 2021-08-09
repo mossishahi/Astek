@@ -64,4 +64,4 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
-model.save(history)
+model.save(history, model.model_name)
