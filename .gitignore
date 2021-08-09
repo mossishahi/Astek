@@ -4,3 +4,4 @@ projects/models/kaggle-models/saved_models
 *.csv
 *.pyc
 **__pycache__
+*.h5
