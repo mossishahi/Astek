@@ -32,7 +32,7 @@ class Preprocessor:
         self.path = path 
         self.clg, self.flg = loggers
         self.clg.info("Code Version: "+ str(self.version))
-        self.clg.info("Preprocessor received a data with Shape:" + \
+        self.clg.info("Preprocessor: data with Shape:" + \
             str(input_data.shape)+ " trimmed to " +str(self.data.shape) +"\n")
 
     def pre_process(self, 
@@ -63,14 +63,14 @@ class Preprocessor:
         if categoricals:
             self.clg.info("Raw data shape:" + str(self.data.shape))
             self.encode(categoricals)
-            self.clg.info("Categorized data shape:" + str(self.data.shape))
+            self.clg.info("One-hotted data shape:" + str(self.data.shape))
 
         #----------- Dimension Reduction -----------
         if dimension_reduction:
             high_dimensions = categoricals
-            self.clg.info("---- Dimension Reduction Started ----")
-            Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
+            # Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
             self.clg.info(self.data.columns)
+            self.clg.info("---- Dimension Reduction Started ----")
             self.dimension_reduction(high_dimensions, params = [700], method = dimension_reduction)
             self.clg.info(self.data.columns)
             Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
@@ -106,7 +106,7 @@ class Preprocessor:
     def scaler(self, numericals):
         scaler = MinMaxScaler()
         self.data.loc[:, numericals] = scaler.fit_transform(self.data.loc[:, numericals])
-        self.clg.info(str(self.data.loc[:][numericals].iloc[[0, 100, 500]][:]) + "\n")
+        # self.clg.info(str(self.data.loc[:][numericals].iloc[[0, 100, 500]][:]) + "\n")
         # self.clg.info("shape-test" + str(self.data.shape))
         self.flg.info(str(numericals)+ " >> have been Normalized.")
 
@@ -212,8 +212,9 @@ class Preprocessor:
     def dimension_reduction(self, high_dimensions, params = [0.9], method = "pca"):
         h_cols = [col for col in self.data.columns if col.startswith(tuple(high_dimensions))] 
         l_cols = [col for col in self.data.columns if not col.startswith(tuple(high_dimensions))] 
-        dim_red = DimRed(self.data[h_cols])
-        dr_res, _ = getattr(dim_red, method)(*params)
+        dim_red = DimRed(self.data[h_cols], str(self.version) + "-dim_red-")
+        dr_res, _, _ = getattr(dim_red, method)(*params)
         dr_columns = ["V"+str(i) for i in range(dr_res.shape[1])]
         dr_df = pd.DataFrame(dr_res, columns = dr_columns)
-        self.data, _ = pd.concat((dr_df, self.data[l_cols]), axis = 1)
+        print(dr_df)
+        self.data = pd.concat((dr_df, self.data[l_cols]), axis = 1)

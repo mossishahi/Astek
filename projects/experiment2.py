@@ -30,7 +30,7 @@ if "WEEK_DAY" not in sim_df.columns:
 selected_features = ["CUSTOMER_ID", "TERMINAL_ID", "WEEK_DAY", "TX_TIME_SECONDS", 'TX_AMOUNT']
 
 #Preprocess Data
-portion = 0.4
+portion = 0.004
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
 input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
                     numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
@@ -69,4 +69,5 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
-model.save(history)
+model.save(history.history, model.model_name)
+model.visualize(history.history, model.model_name + "_reg_")

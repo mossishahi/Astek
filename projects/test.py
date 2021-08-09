@@ -30,7 +30,7 @@ if "WEEK_DAY" not in sim_df.columns:
 selected_features = ["CUSTOMER_ID", "TERMINAL_ID", "WEEK_DAY", "TX_TIME_SECONDS", 'TX_AMOUNT']
 
 #Preprocess Data
-portion = 0.004
+portion = 0.0004
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
 input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
                     numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
