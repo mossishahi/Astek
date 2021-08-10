@@ -107730,3 +107730,32 @@ FileHandler : WARNING   There is no Customer having at least 64 Transaction
 
 FileHandler - WARNING -  There is no Customer having at least 64 Transaction 
 
+StreamHandler - INFO - Code Version: 128
+StreamHandler - INFO - Preprocessor: data with Shape:(1754155, 10) trimmed to (70166, 10)
+
+FileHandler : INFO     ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+FileHandler - INFO - ['TX_AMOUNT', 'TX_TIME_SECONDS'] >> have been Normalized.
+StreamHandler - INFO - Raw data shape:(70166, 10)
+StreamHandler - INFO - One-hotted data shape:(70166, 9994)
+StreamHandler - INFO - Index(['TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID', 'TX_AMOUNT',
+       'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO', 'TX_FRAUD',
+       'TERMINAL_ID_0', 'TERMINAL_ID_1',
+       ...
+       'TERMINAL_ID_9997', 'TERMINAL_ID_9998', 'TERMINAL_ID_9999',
+       'WEEK_DAY_0', 'WEEK_DAY_1', 'WEEK_DAY_2', 'WEEK_DAY_3', 'WEEK_DAY_4',
+       'WEEK_DAY_5', 'WEEK_DAY_6'],
+      dtype='object', length=9994)
+StreamHandler - INFO - ---- Dimension Reduction Started ----
+StreamHandler - INFO - Index(['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9',
+       ...
+       'V698', 'V699', 'TRANSACTION_ID', 'TX_DATETIME', 'CUSTOMER_ID',
+       'TX_AMOUNT', 'TX_TIME_SECONDS', 'TX_TIME_DAYS', 'TX_FRAUD_SCENARIO',
+       'TX_FRAUD'],
+      dtype='object', length=708)
+StreamHandler - INFO - ---- Dimension Reduction Done----
+StreamHandler - WARNING -  There is no Customer having at least 64 Transaction 
+
+FileHandler : WARNING   There is no Customer having at least 64 Transaction 
+
+FileHandler - WARNING -  There is no Customer having at least 64 Transaction 
+
