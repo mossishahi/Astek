@@ -5,3 +5,4 @@ projects/models/kaggle-models/saved_models
 *.pyc
 **__pycache__
 *.h5
+*.log
