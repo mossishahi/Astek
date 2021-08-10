@@ -6,3 +6,4 @@ projects/models/kaggle-models/saved_models
 **__pycache__
 *.h5
 *.log
+!projects/data/simulated-data-raw/*
