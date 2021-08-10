@@ -18,6 +18,16 @@ PROJ_DIRECTORY = os.getcwd()
 #log, clg: console - flg:file
 clg, flg = modules.MyLog().getLogger()
 #----------------------------------------------------------------------------------
+
+"""
+Experiment 2:
+-------------
+Taking advantage of Autoencodeer, we reduce the dimension of data to 700
+then feed the data into a network with ONE LSTM Layer
+
+Categorical featurs = TERMINAL_ID, WEEK_DAY
+"""
+portion = 0.04
 TEST_PORTION = 0.2
 
 # Loading Data
@@ -30,7 +40,6 @@ if "WEEK_DAY" not in sim_df.columns:
 selected_features = ["CUSTOMER_ID", "TERMINAL_ID", "WEEK_DAY", "TX_TIME_SECONDS", 'TX_AMOUNT']
 
 #Preprocess Data
-portion = 0.004
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
 input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
                     numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
