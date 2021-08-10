@@ -12,9 +12,9 @@ class BaseModule:
         title = plot_name
         fig, axs = plt.subplots(2)
         fig.suptitle(title)
-        axs[0].plot(range(0, len(history['loss'])))
+        axs[0].plot(range(0, len(history['loss'])), history['loss'])
         axs[0].set_ylabel('Loss')
-        axs[1].plot(range(0, len(history['val_loss'])))
+        axs[1].plot(range(0, len(history['val_loss'])), history['val_loss'])
         axs[1].set_ylabel('Validation Loss')
         plt.savefig(path + "/plots/" + str(plot_name) + ".png")
 
