@@ -46,7 +46,7 @@ class REGRESSION(BaseModel):
     def train(self, train_x, train_y, batch_size = 64, epochs = 100, validation_split = 0.2):
         print("epochs", epochs)
         csv_logger = CSVLogger(os.path.abspath("./logs/train.log"), append=True, separator=';')
-        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=40)
 
         print("train shapes:", train_x.shape, train_y.shape)
         result = self.model.fit(train_x,
