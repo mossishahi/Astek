@@ -7,3 +7,4 @@ projects/models/kaggle-models/saved_models
 *.h5
 *.log
 !projects/data/simulated-data-raw/*
+*.png
