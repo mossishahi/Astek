@@ -4,6 +4,8 @@ from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, Input
 import pandas as pd
 import random
+from keras.callbacks import EarlyStopping
+
 from ._base import BaseModule
 
 class AutoEncoder(BaseModule):
@@ -26,6 +28,10 @@ class AutoEncoder(BaseModule):
         self.model = Model(inputs = self.encoder.input, outputs = self.decoder(self.encoder.output))
         self.model.compile(optimizer = optimizer, loss = loss)
         self.model.summary()
+    def train(self):
+        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+        history = self.model.fit(X, X, epochs = 150, batch_size = 1024, verbose = 1, validation_split = 0.2, callbacks = [es])
+        return history
 
     def get_low_dim(self, X):
         dim_reducer = Model(self.encoder.input, self.encoder.output)

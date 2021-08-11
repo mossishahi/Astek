@@ -3,9 +3,9 @@ import numpy as np
 from ._ae import AutoEncoder
 
 class DimRed():
-    def __init__(self, X, version_name):
+    def __init__(self, X, experiment_name):
         self.X = X
-        self.version_name = version_name
+        self.experiment_name = experiment_name
     def pca(self, output_dim, treshold):
         print("starting pca transformation")
         print("n_comp:", output_dim)
@@ -41,8 +41,8 @@ class DimRed():
         dim_reducer = AutoEncoder(input_shape = self.X.shape[1],
                                  layers = [int(0.5 * self.X.shape[1]), int(0.25 * self.X.shape[1]), int(0.125 * self.X.shape[1]), output_dim])
         print("log-checkpoint")
-        history = dim_reducer.model.fit(self.X, self.X, epochs = 150, batch_size = 1024, verbose = 1, validation_split = 0.2)
-        dim_reducer.save(history.history, self.version_name + "_ae_")
-        dim_reducer.visualize(history.history, self.version_name + "_ae_")
+        history = dim_reducer.train(self.X, self.X)
+        dim_reducer.save(history.history, self.experiment_name + "_ae_")
+        dim_reducer.visualize(history.history, self.experiment_name + "_ae_")
         low_dim = dim_reducer.get_low_dim(self.X)
         return low_dim, None, "AE"

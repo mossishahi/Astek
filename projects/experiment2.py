@@ -76,7 +76,7 @@ else:
     raise Exception('input Data is empty')
 
 #feed data to Model
-model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
+model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1], loss = 'mse')
 history = model.train(X_train, y_train, epochs=150)
 model.save(history.history, model.model_name)
 model.visualize(history.history, model.model_name + "_reg_")
