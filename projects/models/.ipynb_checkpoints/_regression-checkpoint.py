@@ -13,7 +13,7 @@ from sklearn.metrics import cohen_kappa_score
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import MinMaxScaler
-from keras.callbacks import CSVLogger
+from keras.callbacks import CSVLogger, EarlyStopping
 from modules import SIMPLE_LSTM
 from modules import VC
 
@@ -36,28 +36,27 @@ class REGRESSION(BaseModel):
                                 loss = loss, 
                                 drop_out=drop_out,
                                 metrics = metrics).model
-                                        #model's name
-        self.model_name = "V" +  str(VC().read_version()) + "-"
-        self.model_name = "L" + "".join(map(str,lstm_layers)) + "-" #number of LSTM Units
+        version = VC().read_version()
+        self.model_name = "V:" +  str(version) + "-"
+        print("version", version)
+        self.model_name = "LSTM:" + "".join(map(str,lstm_layers)) + "-" #number of LSTM Units
         self.model_name += "X" + str(input_shape[1]) #number of Features
         self.model_name += "Y" + str(n_outputs)
 
-    def train(self, train_x, train_y, batch_size = 1024, epochs = 100, validation_split = 0.2):
+    def train(self, train_x, train_y, batch_size = 64, epochs = 100, validation_split = 0.2):
         print("epochs", epochs)
         csv_logger = CSVLogger(os.path.abspath("./logs/train.log"), append=True, separator=';')
+        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+
         print("train shapes:", train_x.shape, train_y.shape)
         result = self.model.fit(train_x,
                                 train_y, 
                                 batch_size = batch_size,
                                 validation_split = validation_split,
                                 epochs = epochs,
-                                callbacks=[csv_logger])
+                                callbacks=[csv_logger, es])
         return result
     def predict(self, test_x):
         return self.model.predict(test_x)
-    # def save(self, history, base_dir = os.path.abspath("./outputs/")):
-    #     self.model.save(str(base_dir + "/saved_models/" + self.model_name + ".h5"))
-    #     with open(base_dir + "/train_history/" + str("h_"+self.model_name)+".pickle", 'wb') as file:
-    #         joblib.dump(history.history, file)
     
 
