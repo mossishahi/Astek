@@ -18,36 +18,22 @@ PROJ_DIRECTORY = os.getcwd()
 #log, clg: console - flg:file
 clg, flg = modules.MyLog().getLogger()
 #----------------------------------------------------------------------------------
-
-"""
-Experiment 2:
--------------
-Taking advantage of Autoencodeer, we reduce the dimension of data to 700
-then feed the data into a network with ONE LSTM Layer
-
-Categorical featurs = TERMINAL_ID, WEEK_DAY
-"""
-portion = 0.4
 TEST_PORTION = 0.2
 
 # Loading Data
 sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
 
-if "WEEK_DAY" not in sim_df.columns:
-    sim_df.insert(7, "WEEK_DAY", sim_df["TX_DATETIME"].apply(lambda x : x.weekday()))
-
 #Feature Selection
-selected_features = ["CUSTOMER_ID", "TERMINAL_ID", "WEEK_DAY", "TX_TIME_SECONDS", 'TX_AMOUNT']
+selected_features = ["CUSTOMER_ID", "TX_TIME_SECONDS", 'TX_AMOUNT']
 
 #Preprocess Data
+portion = 0.4
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
 input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
                     numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
-                    categoricals = ["TERMINAL_ID", "WEEK_DAY"],
                     window_size = 64,
                     drop_rollbase=True,
-                    roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"],
-                    dimension_reduction = 'auto_encoder')
+                    roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"])
 
 if input_tensors:
         #---------- Test and Train split ------------
@@ -78,5 +64,4 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
-model.save(history.history, model.model_name)
-model.visualize(history.history, model.model_name + "_reg_")
+model.save(history, model.model_name)
