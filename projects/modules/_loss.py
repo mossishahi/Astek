@@ -1,9 +1,11 @@
 import numpy as np
-class FLoss:
-    def __init__(self, labels , y_pred):
-        self.labels  = labels 
-        self.y_pred  = y_pred
+import tensorflow as tf
+from keras import backend as K
 
-    def loss(self):
-        s = ((self.labels - np.log2(self.y_pred)) + ((1-self.labels) - np.log2(1-self.y_pred)))
+class FLoss:
+
+    def loss(self, y, y_pred):
+        self.y  = tf.convert_to_tensor(y) 
+        self.y_pred  = tf.convert_to_tensor(y_pred)
+        s = ((self.y - K.log(self.y_pred)) + ((1-self.y) - K.log(1-self.y_pred)))
         return s
