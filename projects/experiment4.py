@@ -27,7 +27,7 @@ then feed the data into a network with ONE LSTM Layer
 
 Categorical featurs = TERMINAL_ID, WEEK_DAY
 """
-portion = 0.5
+portion = 0.3
 TEST_PORTION = 0.2
 
 # Loading Data
@@ -44,7 +44,7 @@ pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
 input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
                     numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
                     categoricals = ["TERMINAL_ID", "WEEK_DAY"],
-                    window_size = 32,
+                    window_size = 128,
                     drop_rollbase=True,
                     roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"])
 
@@ -76,6 +76,6 @@ else:
 
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1], loss = 'mse')
-history = model.train(X_train, y_train, epochs=150)
+history = model.train(X_train, y_train, epochs=100)
 model.save(history.history, model.model_name)
 model.visualize(history.history, model.model_name + "_reg_")
