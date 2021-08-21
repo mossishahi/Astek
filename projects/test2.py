@@ -13,8 +13,17 @@ import numpy as np
 # a = K.concatenate([b, c], axis=-1)
 # # print(a)
 
-r = np.array([1, 2, 3])
-a = tf.convert_to_tensor(r, dtype = tf.float32)
-c = 1-a
-print(c)
-print(type(a), type(c))
+# r = np.array([1, 2, 3])
+# a = tf.convert_to_tensor(r, dtype = tf.float32)
+# c = 1-a
+# print(c)
+# print(type(a), type(c))
+a = [[0.0646560192],
+ [0.0192624684],
+ [0.0604782701]]
+
+b = [[0.0256230161],
+ [0.0734725296],
+ [0.0532473773]]
+
+print(K.max([a, b], axis = 0))
