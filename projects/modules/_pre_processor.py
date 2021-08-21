@@ -68,12 +68,11 @@ class Preprocessor:
         #----------- Dimension Reduction -----------
         if dimension_reduction:
             high_dimensions = categoricals
-            # Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
             self.clg.info(self.data.columns)
             self.clg.info("---- Dimension Reduction Started ----")
             self.dimension_reduction(high_dimensions, params = [700], method = dimension_reduction)
-            self.features.append("V")
-            self.clg.info(self.data.columns)
+            self.features.append("V") #columns of latent space got from AE are called V#
+            self.clg.info(self.data.columns) 
             Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
             self.clg.info("---- Dimension Reduction Done----")
 
