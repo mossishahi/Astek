@@ -1,4 +1,5 @@
 projects/data/*
+projects/outputs/*
 projects/models/kaggle-models/saved_models
 *.pickle
 *.csv
