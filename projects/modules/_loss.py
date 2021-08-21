@@ -22,5 +22,5 @@ class FLoss:
         # tf.print(K.log(K.max([self.y_pred, [[0.00000001]]])))
         # tf.print(K.log(K.max([1-self.y_pred, [[0.00000001]]])))
         tf.print("--------------------------")
-        s = K.mean(((self.y_true - K.log(self.y_pred)) + ((1-self.y_true) - K.log(1-self.y_pred))), axis = -1)
+        s = K.mean(((self.y_true - K.log(self.y_pred + 0.000001)) + ((1-self.y_true) - K.log(1-self.y_pred + 0.000001))), axis = -1)
         return s

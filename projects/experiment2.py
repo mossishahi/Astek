@@ -37,24 +37,27 @@ if "WEEK_DAY" not in sim_df.columns:
     sim_df.insert(7, "WEEK_DAY", sim_df["TX_DATETIME"].apply(lambda x : x.weekday()))
 
 #Feature Selection
-selected_features = ["CUSTOMER_ID", "TERMINAL_ID", "WEEK_DAY", "TX_TIME_SECONDS", 'TX_AMOUNT']
+selected_features = ["CUSTOMER_ID",  #CUSTOMER_ID is removed after making windows
+                    "TERMINAL_ID", 
+                    "WEEK_DAY", 
+                    "TX_TIME_SECONDS", 
+                    'TX_AMOUNT'] 
 
 #Preprocess Data
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
-input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
-                    numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
-                    categoricals = ["TERMINAL_ID", "WEEK_DAY"],
-                    window_size = 64,
-                    drop_rollbase=True,
-                    roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"],
-                    dimension_reduction = 'auto_encoder')
+input_tensors, message = pre_proc.pre_process(selected_features, 
+                                                ['TX_AMOUNT'],
+                                                numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
+                                                categoricals = ["TERMINAL_ID", "WEEK_DAY"],
+                                                window_size = 64,
+                                                drop_rollbase=True,
+                                                roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"],
+                                                dimension_reduction = 'auto_encoder')
 
 if input_tensors:
         #---------- Test and Train split ------------
         input_x, y_tensor = input_tensors
         clg.info(str(input_x.shape)+str(y_tensor.shape))
-        # clg.info(str(input_x))
-        # clg.info("pca comps >> " + str(int(0.1 * input_x.shape[2])))
         clg.info(">>"+str(input_x[:, :, :-1].shape))
         
         train_idx = np.random.choice(input_x.shape[0], 
@@ -76,7 +79,7 @@ else:
     raise Exception('input Data is empty')
 
 #feed data to Model
-model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1], loss = 'mse')
+model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
 model.save(history.history, model.model_name)
 model.visualize(history.history, model.model_name + "_reg_")
