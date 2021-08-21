@@ -18,13 +18,23 @@ PROJ_DIRECTORY = os.getcwd()
 #log, clg: console - flg:file
 clg, flg = modules.MyLog().getLogger()
 #----------------------------------------------------------------------------------
-TEST_PORTION = 0.2
+
+"""
+
+Experiment 1:
+-------------
+Univariate Time series prediction based on 
+"TX_AMOUNT"
+
+each window contains Transactions of ONE specific customer
+
+"""
 
 # Loading Data
 sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
 
 #Feature Selection
-selected_features = ["CUSTOMER_ID", "TX_TIME_SECONDS", 'TX_AMOUNT']
+selected_features = ["CUSTOMER_ID", "TX_TIME_SECONDS", 'TX_AMOUNT'] #CUSTOMER_ID is removed after making windows
 
 #Preprocess Data
 portion = 0.4
@@ -39,10 +49,10 @@ if input_tensors:
         #---------- Test and Train split ------------
         input_x, y_tensor = input_tensors
         clg.info(str(input_x.shape)+str(y_tensor.shape))
-        # clg.info(str(input_x))
-        # clg.info("pca comps >> " + str(int(0.1 * input_x.shape[2])))
         clg.info(">>"+str(input_x[:, :, :-1].shape))
-        
+
+        # train<>test split        
+        TEST_PORTION = 0.2
         train_idx = np.random.choice(input_x.shape[0], 
                                       int(input_x.shape[0]*(1-TEST_PORTION)), replace=False)                      
         X_train = input_x[train_idx, :, :]
