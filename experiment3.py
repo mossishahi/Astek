@@ -12,6 +12,8 @@ import numpy as np
 import pandas as pd
 from modules import Dumper
 from modules import FLoss
+from sklearn.metrics import mean_squared_error
+
 #tensorflow Logs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 #project-directory
@@ -76,5 +78,14 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1], loss = FLoss().loss)
 history = model.train(X_train, y_train, epochs=100)
+ytest_pred = model.predict(X_test)
+print("..... final metrics .....")
+print(ytest_pred)
+print(mean_squared_error(y_test, ytest_pred))
+print("..... ================== .....")
+
+Dumper(PROJ_DIRECTORY + "ypred/").dump(ytest_pred, 
+                        model.model_name,
+                        "y_test_pred")
 model.save(history.history, model.model_name)
 model.visualize(history.history, model.model_name + "_reg_floss")
