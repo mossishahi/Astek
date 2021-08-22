@@ -21,7 +21,7 @@ clg, flg = modules.MyLog().getLogger()
 TEST_PORTION = 0.2
 
 # Loading Data
-sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
+sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_pickle("simulated-data-raw")
 
 #Feature Define
 if "WEEK_DAY" not in sim_df.columns:

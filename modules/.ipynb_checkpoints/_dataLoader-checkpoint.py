@@ -6,7 +6,7 @@ class DataLoader:
     def __init__(self, base):
         self.base = base
         pass
-    def load_data(self, name):
+    def load_pickle(self, name):
         dfs = []
         for filename in glob.glob(os.path.join(self.base, "data", name, "*.pkl")):
             # print(filename)

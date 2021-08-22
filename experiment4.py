@@ -21,29 +21,29 @@ clg, flg = modules.MyLog().getLogger()
 
 """
 
-Experiment 1:
+Experiment 4:
 -------------
+New Dataset: Kaggle
 Univariate Time series prediction based on 
-"TX_AMOUNT"
-
-each window contains Transactions of ONE specific customer
-
+"V1 : V28" + "Time"
 """
 
 # Loading Data
-sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_pickle("simulated-data-raw")
+sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_csv("kaggle-creditcard")
 
 #Feature Selection
-selected_features = ["CUSTOMER_ID", "TX_TIME_SECONDS", 'TX_AMOUNT'] #CUSTOMER_ID is removed after making windows
+pca_components = ["V" + str(i) for i in range(1, 28)]
+
+selected_features = pca_components + ["Time", "Amount"]  #CUSTOMER_ID is removed after making windows
 
 #Preprocess Data
-portion = 0.4
+portion = 1
 pre_proc = modules.Preprocessor(sim_df, portion, [clg, flg])
-input_tensors, message = pre_proc.pre_process(selected_features, ['TX_AMOUNT'],
-                    numericals = ["TX_AMOUNT", "TX_TIME_SECONDS"],
+input_tensors, message = pre_proc.pre_process(selected_features, ['Amount'],
+                    numericals = ["Amount", "Time"],
                     window_size = 64,
                     drop_rollbase=True,
-                    roll_base = ["CUSTOMER_ID", "TX_TIME_SECONDS"])
+                    roll_base = ["Time"])
 
 if input_tensors:
         #---------- Test and Train split ------------
@@ -74,4 +74,4 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
-model.save(history, model.model_name)
+model.save(history, model.model_name + "_kaggle_")

@@ -30,7 +30,7 @@ portion = 0.35
 TEST_PORTION = 0.2
 
 # Loading Data
-sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
+sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_pickle("simulated-data-raw")
 
 if "WEEK_DAY" not in sim_df.columns:
     sim_df.insert(7, "WEEK_DAY", sim_df["TX_DATETIME"].apply(lambda x : x.weekday()))
