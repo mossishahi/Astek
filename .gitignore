@@ -5,7 +5,15 @@ projects/models/kaggle-models/saved_models
 *.csv
 *.pyc
 **__pycache__
-*.h5
+**.h5
 *.log
 !projects/data/simulated-data-raw/*
 *.png
+./outputs/saved_models/*
+
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
