@@ -29,8 +29,8 @@ class AutoEncoder(BaseModule):
         self.model.compile(optimizer = optimizer, loss = loss)
         self.model.summary()
     def train(self, input_X, output_X):
-        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience = 20)
-        history = self.model.fit(input_X, output_X, epochs = 150, batch_size = 1024, verbose = 1, validation_split = 0.2, callbacks = [es])
+        es = EarlyStopping(monitor='loss', mode='min', verbose=1, patience = 20)
+        history = self.model.fit(input_X, output_X, epochs = 120, batch_size = 32, verbose = 1, validation_split = 0.2) #, callbacks = [es])
         return history
 
     def get_low_dim(self, X):
