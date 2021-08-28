@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import modules
 import sys
 import os
@@ -70,3 +71,8 @@ else:
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=50)
 model.save(history, model_name)
+=======
+a = ["V" + str(i) for i in range(1, 10)]
+b = a + ["a"]
+print(b)
+>>>>>>> 07e1521aac124893b6ece4cb1206eddd278b9e5e

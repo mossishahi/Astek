@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import logging
+from tqdm import tqdm
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -32,8 +33,9 @@ class Preprocessor:
         self.path = path 
         self.clg, self.flg = loggers
         self.clg.info("Code Version: "+ str(self.version))
-        self.clg.info("Preprocessor: data with Shape:" + \
-            str(input_data.shape)+ " trimmed to " +str(self.data.shape) +"\n")
+
+        self.clg.info("Preprocessor: a " + str(self.data.shape) + " portion of original data with Shape:" + \
+            str(input_data.shape) + "selected \n")
 
     def pre_process(self, 
                     feature_columns,
@@ -68,11 +70,11 @@ class Preprocessor:
         #----------- Dimension Reduction -----------
         if dimension_reduction:
             high_dimensions = categoricals
-            # Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Hdim"])
             self.clg.info(self.data.columns)
             self.clg.info("---- Dimension Reduction Started ----")
             self.dimension_reduction(high_dimensions, params = [700], method = dimension_reduction)
-            self.clg.info(self.data.columns)
+            self.features.append("V") #columns of latent space got from AE are called V#
+            self.clg.info(self.data.columns) 
             Dumper(self.path).dump([self.data], str(self.version) + "-dim_red-", ["input_data_Ldim"])
             self.clg.info("---- Dimension Reduction Done----")
 
@@ -112,30 +114,24 @@ class Preprocessor:
 
     def roll(self, window_size):
         
-        valid_customers = (np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum()
-        if valid_customers:
-            self.clg.info("No. Valid Customers:" + str(((np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum())))
-        else:
-            message = " There is no Customer having at least " + str(window_size) + " Transaction \n"
-            return None, message
         x_filter = [col for col in self.data.columns if col.startswith(tuple(self.features))]
         y_filter = [col for col in self.data.columns if col.startswith(tuple(self.labels))]
         ix_tensor = np.zeros([(self.data.shape[0] - (window_size)) * window_size, len(x_filter)], dtype = 'float32')
         iy_tensor = np.zeros((0, len(y_filter)), dtype = 'float32')
-        tensor_name = "W"+str(window_size)+"X"+str(len(x_filter))+"Y"+str(len(y_filter))+"_"
+        self.tensor_name = "W"+str(window_size)+"X"+str(len(x_filter))+"Y"+str(len(y_filter))+"_"
         # print(">> . . .", self.data[self.roll_base[0]].value_counts().to_dict())
-        if self.roll_base == 'time':
-            tensor_name = "T-" + tensor_name
-            tensor_name = "V-" + str(self.version) + tensor_name
-            temp_filter = x_filter.pop(x_filter.index('TX_AMOUNT'))
+        if len(self.roll_base) == 1:
+            self.tensor_name = "T-" + self.tensor_name
+            self.tensor_name = "V-" + str(self.version) + self.tensor_name
+            temp_filter = x_filter.pop(x_filter.index(self.roll_base[0]))
             x_filter = x_filter + [temp_filter]
-            self.dg_x = dg.loc[:][x_filter]
+            self.dg_x = self.data.loc[:][x_filter]
             self.dg_y = self.data.loc[:][y_filter]
             # - - - - - Check Drive files - - - - 
-            if os.path.isfile(self.path + tensor_name +'X_tensor.pickle'):
-                with open(self.path + str(tensor_name + +'X_tensor.pickle'), 'rb') as file:
+            if os.path.isfile(self.path + self.tensor_name +'X_tensor.pickle'):
+                with open(self.path + str(self.tensor_name + +'X_tensor.pickle'), 'rb') as file:
                     ix_tensor = joblib.load(file)
-                with open(self.path + str(tensor_name + +'Y_tensor.pickle'), 'rb') as file:
+                with open(self.path + str(self.tensor_name + +'Y_tensor.pickle'), 'rb') as file:
                     iy_tensor = joblib.load(file)
                 message = "- - -> X-Tensor with shape: " + str(ix_tensor.shape) + " and" + " Y-Tensor with shape" + str(iy_tensor.shape) + "found on Local Drive <- - -"
             else:
@@ -145,19 +141,26 @@ class Preprocessor:
                     ix_tensor[(window_size*i):(window_size*(i+1)), :] = s
                     iy_tensor = np.vstack((iy_tensor, self.dg_y.iloc[i+window_size, ]))
                 ix_tensor = ix_tensor.reshape(-1, window_size, np.shape(ix_tensor)[1])
-                self.clg.info( "- - - - Writing X Tensor on Drive- - - -")
-                with open(self.path + tensor_name + +'X_tensor.pickle', 'wb') as file:
+                self.clg.info("- - - - Writing X Tensor on Drive- - - -")
+                with open(self.path + self.tensor_name + 'X_tensor.pickle', 'wb') as file:
                     joblib.dump(ix_tensor, file)
-                with open(self.path + tensor_name + +'Y_tensor.pickle', 'wb') as file:
+                with open(self.path + self.tensor_name + 'Y_tensor.pickle', 'wb') as file:
                     joblib.dump(iy_tensor, file) 
                 message = "Input X by shape:" + str(self.data.shape) + "rolled to X Tensor by Shape:" + str(ix_tensor.shape)
         else:
-            tensor_name = "R-"+tensor_name
-            tensor_name = "V" + str(self.version) + "-" + tensor_name
-            if os.path.isfile(self.path + tensor_name + 'X_tensor.pickle'):
-                with open((self.path + str(tensor_name) + 'X_tensor.pickle'), 'rb') as file:
+            valid_customers = (np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum()
+            if valid_customers:
+                self.clg.info("No. Valid Customers:" + str(((np.array(list(self.data[self.roll_base[0]].value_counts().to_dict().values())) > window_size).sum())))
+            else:
+                message = " There is no Customer having at least " + str(window_size) + " Transaction \n"
+                return None, message
+
+            self.tensor_name = "R-"+self.tensor_name
+            self.tensor_name = "V" + str(self.version) + "-" + self.tensor_name
+            if os.path.isfile(self.path + self.tensor_name + 'X_tensor.pickle'):
+                with open((self.path + str(self.tensor_name) + 'X_tensor.pickle'), 'rb') as file:
                     ix_tensor = joblib.load(file)
-                with open((self.path + str(tensor_name) + 'Y_tensor.pickle'), 'rb') as file:
+                with open((self.path + str(self.tensor_name) + 'Y_tensor.pickle'), 'rb') as file:
                     iy_tensor = joblib.load(file)
                 message = "- - -> X-Tensor with shape: " + str(ix_tensor.shape) + " and" + " Y-Tensor with shape" + str(iy_tensor.shape) + "found on Local Drive <- - -"
             else:
@@ -200,12 +203,12 @@ class Preprocessor:
                 ix_tensor = ix_tensor[:len(iy_tensor)*window_size ,:].reshape(-1, window_size, ix_tensor.shape[1])
                 iy_tensor = iy_tensor.reshape(-1, 1)
                 # ------- Write Tensors on Drive ------
-                with open(self.path + tensor_name +'X_tensor.pickle', 'wb') as file:
+                with open(self.path + self.tensor_name +'X_tensor.pickle', 'wb') as file:
                     joblib.dump(ix_tensor, file)
-                with open(self.path + tensor_name +'Y_tensor.pickle', 'wb') as file:
+                with open(self.path + self.tensor_name +'Y_tensor.pickle', 'wb') as file:
                     joblib.dump(iy_tensor, file) 
                 message = "Input X by shape:" + str(self.data.shape) + "rolled to X Tensor by Shape:" + str(ix_tensor.shape)
-                self.tensor_name = tensor_name
+                self.tensor_name = self.tensor_name
         return [ix_tensor, iy_tensor], message
 
 

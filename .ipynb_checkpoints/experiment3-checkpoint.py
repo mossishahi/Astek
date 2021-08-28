@@ -12,6 +12,11 @@ import numpy as np
 import pandas as pd
 from modules import Dumper
 from modules import FLoss
+<<<<<<< HEAD
+=======
+from sklearn.metrics import mean_squared_error
+
+>>>>>>> 07e1521aac124893b6ece4cb1206eddd278b9e5e
 #tensorflow Logs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 #project-directory
@@ -30,7 +35,7 @@ portion = 0.35
 TEST_PORTION = 0.2
 
 # Loading Data
-sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
+sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_pickle("simulated-data-raw")
 
 if "WEEK_DAY" not in sim_df.columns:
     sim_df.insert(7, "WEEK_DAY", sim_df["TX_DATETIME"].apply(lambda x : x.weekday()))
@@ -77,3 +82,13 @@ model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1], loss 
 history = model.train(X_train, y_train, epochs=150)
 model.save(history.history, model.model_name)
 model.visualize(history.history, model.model_name + "_reg_floss")
+
+ytest_pred = model.predict(X_test)
+print("..... final metrics .....")
+print(ytest_pred)
+print(mean_squared_error(y_test, ytest_pred))
+print("..... ================== .....")
+
+Dumper(PROJ_DIRECTORY + "ypred/").dump(ytest_pred, 
+                        model.model_name,
+                        "y_test_pred")

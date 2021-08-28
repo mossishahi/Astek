@@ -39,14 +39,14 @@ class REGRESSION(BaseModel):
         version = VC().read_version()
         self.model_name = "V:" +  str(version) + "-"
         print("version", version)
-        self.model_name = self.model_name + "LSTM:" + "".join(map(str,lstm_layers)) + "-" #number of LSTM Units
+        self.model_name = "LSTM:" + "".join(map(str,lstm_layers)) + "-" #number of LSTM Units
         self.model_name += "X" + str(input_shape[1]) #number of Features
         self.model_name += "Y" + str(n_outputs)
 
-    def train(self, train_x, train_y, batch_size = 64, epochs = 150, validation_split = 0.2):
+    def train(self, train_x, train_y, batch_size = 64, epochs = 100, validation_split = 0.2):
         print("epochs", epochs)
         csv_logger = CSVLogger(os.path.abspath("./logs/train.log"), append=True, separator=';')
-        es = EarlyStopping(monitor='loss', mode='min', verbose=1, patience=40)
+        es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=40)
 
         print("train shapes:", train_x.shape, train_y.shape)
         result = self.model.fit(train_x,
@@ -54,7 +54,7 @@ class REGRESSION(BaseModel):
                                 batch_size = batch_size,
                                 validation_split = validation_split,
                                 epochs = epochs,
-                                callbacks=[csv_logger])
+                                callbacks=[csv_logger, es])
         return result
     def predict(self, test_x):
         return self.model.predict(test_x)

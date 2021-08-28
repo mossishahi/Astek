@@ -31,7 +31,7 @@ each window contains Transactions of ONE specific customer
 """
 
 # Loading Data
-sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_data("simulated-data-raw")
+sim_df = modules.DataLoader(base = PROJ_DIRECTORY).load_pickle("simulated-data-raw")
 
 #Feature Selection
 selected_features = ["CUSTOMER_ID", "TX_TIME_SECONDS", 'TX_AMOUNT'] #CUSTOMER_ID is removed after making windows
@@ -74,4 +74,5 @@ else:
 #feed data to Model
 model = models.REGRESSION(X_train.shape[1:], n_outputs = y_train.shape[1])
 history = model.train(X_train, y_train, epochs=150)
-model.save(history, model.model_name)
+model.save(history.history, model.model_name)
+model.visualize(history.history, model.model_name + "_reg_")
